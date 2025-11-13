@@ -20,6 +20,7 @@ public class RegisterPage {
     private final String UNIQUE_USERNAME = "user_" + System.currentTimeMillis();
     private final String PASSWORD = "Password1";
     private final Duration TIMEOUT = Duration.ofSeconds(10);
+    private final String REGISTRATION_SUCCESS_MESSAGE = "Thank you for registering";
 
 
     @Given("I navigate to the NewTours Registration page")
@@ -70,22 +71,34 @@ public class RegisterPage {
         System.out.println("Registration form submitted.");
     }
 
-    // --- THEN Step ---
-    @Then("I should be navigated to the registration confirmation page containing {string}")
-    public void iShouldBeNavigatedToTheRegistrationConfirmationPage(String expectedText) {
+
+    @Then("I should see the successful registration message")
+    public void iShouldSeeTheSuccessfulRegistrationMessage() {
         WebDriverWait wait = new WebDriverWait(driver, TIMEOUT);
 
-        WebElement messageElement = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'" + expectedText + "')]"))
-        );
 
-        String actualText = messageElement.getText();
+        WebElement confirmationMessage = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'" + REGISTRATION_SUCCESS_MESSAGE + "')]"))
+        );
+        String actualMessageText = confirmationMessage.getText();
         Assert.assertTrue(
-                String.format("Registration failed. Expected page to contain '%s', but got '%s'.", expectedText, actualText),
-                actualText.contains(expectedText)
+                String.format("Registration failed. Expected page to contain '%s'.", REGISTRATION_SUCCESS_MESSAGE),
+                actualMessageText.contains(REGISTRATION_SUCCESS_MESSAGE)
         );
 
-        System.out.println("Registration Successful! Message found: " + actualText);
+
+        WebElement usernameElement = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'" + UNIQUE_USERNAME + "')]"))
+        );
+
+        Assert.assertTrue(
+                String.format("Confirmation failed. Expected unique username '%s' not found.", UNIQUE_USERNAME),
+                usernameElement.getText().contains(UNIQUE_USERNAME)
+        );
+
+        System.out.println("Registration Successful! Message found: " + actualMessageText);
+        System.out.println("Verified registration for username: " + UNIQUE_USERNAME);
+
         DriverFactory.quitDriver(driver);
     }
 }

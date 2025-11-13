@@ -20,8 +20,8 @@ public class LoginPage {
     private final Duration TIMEOUT = Duration.ofSeconds(10);
 
 
-    private static final String REGISTERED_USERNAME = "user_";
-    private static final String PASSWORD = "Password1";
+    private static final String REGISTERED_USERNAME = "user_1763059308259";
+    private static final String PASSWORD = "Dojitha@123";
 
     @Given("I am on the NewTours Login page")
     public void iAmOnTheLoginPage() {

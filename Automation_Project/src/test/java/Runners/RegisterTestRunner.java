@@ -11,7 +11,7 @@ import io.cucumber.junit.CucumberOptions;
         glue = "stepdefinitions",
         plugin = {
                 "pretty",
-                "html:target/cucumber-reports/index.html",
+                "html:target/cucumber-reports/Register-report.html",
                 "json:target/cucumber-reports/cucumber.json"
         },
         tags = "@AccountManagement",
